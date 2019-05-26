@@ -9,14 +9,14 @@
   <title>从零开始搭建自己的博客(Windows下基于hexo) | Xianyu Chen</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="环境准备下载并安装 Node.js下载地址 我下载的是10.15.3 LTS">
-<meta name="keywords" content="GitHub,Hexo,yilia">
+<meta name="keywords" content="Hexo,GitHub,yilia">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零开始搭建自己的博客(Windows下基于hexo)">
 <meta property="og:url" content="http://yoursite.com/2019/05/22/我的第一篇博客文章/index.html">
 <meta property="og:site_name" content="Xianyu Chen">
 <meta property="og:description" content="环境准备下载并安装 Node.js下载地址 我下载的是10.15.3 LTS">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-25T04:50:41.301Z">
+<meta property="og:updated_time" content="2019-05-26T07:17:40.308Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零开始搭建自己的博客(Windows下基于hexo)">
 <meta name="twitter:description" content="环境准备下载并安装 Node.js下载地址 我下载的是10.15.3 LTS">
@@ -61,8 +61,6 @@
 			<ul>
 			
 				<li><a href="/">主页</a></li>
-	        
-				<li><a href="/categories">分类</a></li>
 	        
 				<li><a href="/archives">归档</a></li>
 	        
@@ -126,8 +124,6 @@
 			
 				
 			
-				
-			
 			
 			
 			<nav class="header-nav">
@@ -143,14 +139,12 @@
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 70%">
+				<ul style="width: 50%">
 				
 				
-					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+					<li style="width: 50%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="/categories">分类</a></li>
-		        
-					<li style="width: 33.333333333333336%"><a href="/archives">归档</a></li>
+					<li style="width: 50%"><a href="/archives">归档</a></li>
 		        
 				</ul>
 			</nav>
@@ -220,6 +214,45 @@
       
 
       
+        <section id="comments" class="comments">
+          <style>
+            .comments{margin:30px;padding:10px;background:#fff}
+            @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+          </style>
+          <div id="vcomment" class="comment"></div> 
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+   var notify = 'true' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+    window.onload = function() {
+        new Valine({
+            el: '.comment',
+            notify: notify,
+            verify: verify,
+            app_id: "zrKLk33eTbmntH6qKGoTf0Ju-gzGzoHsz",
+            app_key: "brRdyfngJ3NEkTg5N6O3BHMb",
+            placeholder: "Just go go",
+            avatar:"mm"
+        });
+    }
+</script>
+        </section>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">
             <div class="tooltip tooltip-east">
@@ -250,11 +283,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">GitHub</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hexo</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hexo</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">GitHub</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -270,15 +303,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/GitHub//" class="article-tag-list-link color2">GitHub</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/GitHub/Hexo//" class="article-tag-list-link color5">Hexo</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/GitHub/Hexo/yilia//" class="article-tag-list-link color1">yilia</a>
+        			<a href="/categories/hexo//" class="article-tag-list-link color5">hexo</a>
         		</li>
       		
 		</ul>
@@ -345,6 +370,20 @@
 </article>
 
   
+<nav id="article-nav">
+  
+    <a href="/2019/05/26/个性化设置/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          个性化设置
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -494,11 +533,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">GitHub</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">个性化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">GitHub</a>
               </li>
              
               <li class="article-tag-list-item">
