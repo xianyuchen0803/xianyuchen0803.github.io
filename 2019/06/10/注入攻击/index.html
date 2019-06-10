@@ -18,7 +18,8 @@
 <meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql1.png">
 <meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql2.png">
 <meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql3.png">
-<meta property="og:updated_time" content="2019-06-10T02:47:57.435Z">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/sql4.png">
+<meta property="og:updated_time" content="2019-06-10T03:25:26.109Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="注入攻击">
 <meta name="twitter:description" content="一. 注入攻击的本质(两个必要条件)1). 用户能够控制输入2). 原本程序要执行的代码，拼接了用户数据，对用户的输入没有过滤操作">
@@ -201,8 +202,16 @@
 <p><img src="http://ps792o7x9.bkt.clouddn.com/sql2.png" alt="avatar"></p>
 <p>此页面存在SQL注入漏洞<br><code>http://localhost:8003/Production/PRODUCT_DETAIL.asp?id=1142&#39;</code>  （加一个单引号’）</p>
 <p><img src="http://ps792o7x9.bkt.clouddn.com/sql3.png" alt="avatar"></p>
-<p>发现web服务器开启了错误回显，从错误信息可以知道，服务器采用的是Access作为数据库。</p>
-<h1 id="盲注-Blind-Injection"><a href="#盲注-Blind-Injection" class="headerlink" title="盲注(Blind Injection)"></a>盲注(Blind Injection)</h1>
+<p>发现web服务器开启了<b>错误回显</b>，从错误信息可以知道，服务器采用的是Access作为数据库。</p>
+<h1 id="盲注-Blind-Injection"><a href="#盲注-Blind-Injection" class="headerlink" title="盲注(Blind Injection)"></a>盲注(Blind Injection)</h1><p>当服务器关闭了错误回显时，攻击者必须找到一个方向来验证注入的SQL语句是否得到执行，攻击者为了应对这种情况，研究了<b>盲注</b>的技巧。</p>
+<p>还是以上面的网站为例</p>
+<p>构造如下条件语句：<br><code>http://localhost:8003/Production/PRODUCT_DETAIL.asp?id=1142 and 1=1</code> 此语句返回正常网页，那么就可以判断”id”参数存在SQL注入的漏洞。</p>
+<p><code>http://localhost:8003/Production/PRODUCT_DETAIL.asp?id=1142 and 1=2</code>此语句返回错误页面，因为<code>and 1=2</code>永远是一个假命题，所以and条件永远无法成立，对于web应用来说，也不会将结果返回给用户，返回的是一个空的或者是错误的页面。<br><img src="http://ps792o7x9.bkt.clouddn.com/sql4.png" alt="avatar"></p>
+<p>如果and方法被过滤掉，可以换用or方法<br><code>http://localhost:8003/Production/PRODUCT_DETAIL.asp?id=1142 or 1=1</code><br>这句话的真正sql语句可能是：<br><code>select * from Tabel where id = 1142 or 1=1</code><br>我们知道SQL语句中where相当于判断语句，并且是由 or 连接的，所以 id = 1142 和 1=1 中有一个为真就为真,1=1肯定为真，所以语句又等价于:<br><code>select * from Tabel</code>   等于爆出表中的所有字段。</p>
+<p><code>http://localhost:8003/Production/PRODUCT_DETAIL.asp?id=1142 or 1=2</code>  这句才是返回正常页面</p>
+<p>综上判断方法：<br>and 1=1  正常页面<br>and 1=2  错误页面</p>
+<p>or 1=1   错误页面<br>or 1=2   正常页面</p>
+
       
 
  
