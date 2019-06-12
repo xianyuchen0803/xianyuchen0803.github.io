@@ -29,7 +29,13 @@
 <meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.11SqlInJ8.png">
 <meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.11SqlInJ9.png">
 <meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.11SqlInJ10.png">
-<meta property="og:updated_time" content="2019-06-11T11:54:26.465Z">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.12mysql.PNG">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.12mysql5.PNG">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.12mysql1.PNG">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.12mysql2.PNG">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.12mysql3.PNG">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.12mysql4.PNG">
+<meta property="og:updated_time" content="2019-06-12T12:58:47.164Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SQL注入之PHP+Mysql注入">
 <meta name="twitter:description" content="PHP实验环境搭建">
@@ -236,6 +242,16 @@
 <p>由上图可知，列名为id,title,text</p>
 <p>6). 猜数据  : 从sqlin数据库下的news表中猜text这个列的数据<br> <code>select * from news where id=1 union select text,2,3 from sqlin.news</code></p>
 <p><img src="http://ps792o7x9.bkt.clouddn.com/6.11SqlInJ10.png" alt="avatar"></p>
+<h1 id="Mysql文件读取-上传操作，都是在root权限下才能执行"><a href="#Mysql文件读取-上传操作，都是在root权限下才能执行" class="headerlink" title="Mysql文件读取,上传操作，都是在root权限下才能执行"></a>Mysql文件读取,上传操作，都是在root权限下才能执行</h1><p>以phpStudy下的Mysql为例</p>
+<p>首先登陆Mysql<br><img src="http://ps792o7x9.bkt.clouddn.com/6.12mysql.PNG" alt="avatar"></p>
+<p>查看当前用户是否是root用户<br><code>select user();</code><br><img src="http://ps792o7x9.bkt.clouddn.com/6.12mysql5.PNG" alt="avatar"></p>
+<p>查看secure-file-priv特性对读取上传文件的影响<code>show global variables like &#39;%secure%&#39;;</code><br><img src="http://ps792o7x9.bkt.clouddn.com/6.12mysql1.PNG" alt="avatar"></p>
+<p>1). secure_file_priv的值为null ，表示限制mysqld 不允许导入|导出<br>2). secure_file_priv的值为/tmp/ ，表示限制mysqld 的导入|导出只能发生在/tmp/目录下<br>3). secure_file_priv的值没有具体值时，表示不对mysqld 的导入|导出做限制</p>
+<p>此开关默认为NULL，即不允许导入导出,需要修改文件,去D:\phpStudy\PHPTutorial\MySQL路劲下修改my.ini文件,在[mysqld]内加入<code>secure_file_priv =</code>,重启Mysql即可。<br><img src="http://ps792o7x9.bkt.clouddn.com/6.12mysql2.PNG" alt="avatar"></p>
+<h2 id="读取文件操作-读取e盘下的1-txt文件"><a href="#读取文件操作-读取e盘下的1-txt文件" class="headerlink" title="读取文件操作,读取e盘下的1.txt文件"></a>读取文件操作,读取e盘下的1.txt文件</h2><p><code>select load_file(&#39;e:\1.txt&#39;);</code></p>
+<p><img src="http://ps792o7x9.bkt.clouddn.com/6.12mysql3.PNG" alt="avatar"></p>
+<h2 id="上传写入文件操作-将fffff写入到e盘下的4-txt中"><a href="#上传写入文件操作-将fffff写入到e盘下的4-txt中" class="headerlink" title="上传写入文件操作 , 将fffff写入到e盘下的4.txt中"></a>上传写入文件操作 , 将fffff写入到e盘下的4.txt中</h2><p><code>select &#39;fffff&#39; into outfile &#39;e:/4.txt&#39;;</code></p>
+<p><img src="http://ps792o7x9.bkt.clouddn.com/6.12mysql4.PNG" alt="avatar"></p>
 
       
 
@@ -400,7 +416,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP实验环境搭建"><span class="toc-number">1.</span> <span class="toc-text">PHP实验环境搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库分层"><span class="toc-number">2.</span> <span class="toc-text">数据库分层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql数据库"><span class="toc-number">2.1.</span> <span class="toc-text">Mysql数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Access数据库"><span class="toc-number">2.2.</span> <span class="toc-text">Access数据库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP-Mysql-注入"><span class="toc-number">3.</span> <span class="toc-text">PHP + Mysql 注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注入顺序"><span class="toc-number">3.1.</span> <span class="toc-text">注入顺序</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP实验环境搭建"><span class="toc-number">1.</span> <span class="toc-text">PHP实验环境搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库分层"><span class="toc-number">2.</span> <span class="toc-text">数据库分层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql数据库"><span class="toc-number">2.1.</span> <span class="toc-text">Mysql数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Access数据库"><span class="toc-number">2.2.</span> <span class="toc-text">Access数据库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP-Mysql-注入"><span class="toc-number">3.</span> <span class="toc-text">PHP + Mysql 注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注入顺序"><span class="toc-number">3.1.</span> <span class="toc-text">注入顺序</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mysql文件读取-上传操作，都是在root权限下才能执行"><span class="toc-number">4.</span> <span class="toc-text">Mysql文件读取,上传操作，都是在root权限下才能执行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#读取文件操作-读取e盘下的1-txt文件"><span class="toc-number">4.1.</span> <span class="toc-text">读取文件操作,读取e盘下的1.txt文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上传写入文件操作-将fffff写入到e盘下的4-txt中"><span class="toc-number">4.2.</span> <span class="toc-text">上传写入文件操作 , 将fffff写入到e盘下的4.txt中</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -581,10 +597,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">GitHub</a>
               </li>
              
@@ -594,6 +606,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">yilia</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
