@@ -19,7 +19,12 @@
 <meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.17xss.png">
 <meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.17xss1.png">
 <meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.17xss2.png">
-<meta property="og:updated_time" content="2019-06-17T11:09:48.215Z">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.17xss3.png">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.17xss4.png">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.17xss7.png">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.17xss5.png">
+<meta property="og:image" content="http://ps792o7x9.bkt.clouddn.com/6.17xss6.png">
+<meta property="og:updated_time" content="2019-06-17T11:26:43.375Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XSS跨站脚本攻击">
 <meta name="twitter:description" content="XSS介绍XSS攻击通常是指黑客通过“HTML注入”篡改了网页，插入了恶意的脚本，从而在用户浏览网页时，控制用户浏览器的一种攻击。">
@@ -199,8 +204,13 @@
 <p>2). 存储型XSS(持久型)<br>把用户输入的数据“存储”在服务器端。比较常见的一个场景：黑客写下一篇含有恶意Javascript代码的博客文章，文章发表后，所以访问该博客的用户，都会在他们的浏览器中执行这段恶意的JavaScript代码,黑客把恶意的脚本保存到服务器中。</p>
 <h1 id="XSS例子"><a href="#XSS例子" class="headerlink" title="XSS例子"></a>XSS例子</h1><p>以下面这段程序为例：<br><img src="http://ps792o7x9.bkt.clouddn.com/6.17xss.png" alt="avatar"></p>
 <p><img src="http://ps792o7x9.bkt.clouddn.com/6.17xss1.png" alt="avatar"></p>
-<p>我们把参数设置为一点script代码，结果如下：</p>
+<p>我们把参数设置为一点script代码，<code>&lt;script&gt;alert(444)&lt;/script&gt;</code>结果如下：</p>
 <p><img src="http://ps792o7x9.bkt.clouddn.com/6.17xss2.png" alt="avatar"></p>
+<h1 id="XSS-之beef工具-kali"><a href="#XSS-之beef工具-kali" class="headerlink" title="XSS 之beef工具(kali)"></a>XSS 之beef工具(kali)</h1><p>打开虚拟机中的kali系统，在终端中启动beef<br><img src="http://ps792o7x9.bkt.clouddn.com/6.17xss3.png" alt="avatar"><br>可以看到两个链接：<br><code>http://192.168.80.134:3000/ui/panel</code>   —-&gt;控制台<br>登录名和密码都是beef<br><img src="http://ps792o7x9.bkt.clouddn.com/6.17xss4.png" alt="avatar"></p>
+<p><code>http://192.168.80.134:3000/hook.js</code>   —-&gt;新建个html文件</p>
+<p><img src="http://ps792o7x9.bkt.clouddn.com/6.17xss7.png" alt="avatar"></p>
+<p>访问beef.html文件发现可以截取浏览器的信息<br><img src="http://ps792o7x9.bkt.clouddn.com/6.17xss5.png" alt="avatar"></p>
+<p>这样可以控制浏览器了，比如获取cookie等<br><img src="http://ps792o7x9.bkt.clouddn.com/6.17xss6.png" alt="avatar"></p>
 
       
 
@@ -361,7 +371,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#XSS介绍"><span class="toc-number">1.</span> <span class="toc-text">XSS介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XSS例子"><span class="toc-number">2.</span> <span class="toc-text">XSS例子</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#XSS介绍"><span class="toc-number">1.</span> <span class="toc-text">XSS介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XSS例子"><span class="toc-number">2.</span> <span class="toc-text">XSS例子</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XSS-之beef工具-kali"><span class="toc-number">3.</span> <span class="toc-text">XSS 之beef工具(kali)</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -530,6 +540,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">XSS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">漏洞攻击</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL注入</a>
               </li>
              
@@ -539,14 +557,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">MYSQL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">XSS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">漏洞攻击</a>
               </li>
              
               <li class="article-tag-list-item">
